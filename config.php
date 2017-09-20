@@ -6,6 +6,7 @@ define('IRC_SERVER_POST','6667');
 define('IRC_CHANNEL','#consensus-bot'); 
 define('BOT_NICK','c0nn13b0t');
 
+define('BOT_COMMAND','!cb');
 
 /* 
  *  DO NOT EDIT BEYOND THIS POINT

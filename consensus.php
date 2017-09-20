@@ -50,7 +50,7 @@ function isCb($data) {
     $text[0] = substr($text[0],1); // clean the : from the first word
     //writeln(implode($text,' '));
     //writeln("text0: '".$text[0]."'");
-    if (trim($text[0]) == '!cb') {
+    if (trim($text[0]) == BOT_COMMAND) {
         return true;
     }
     return false;
