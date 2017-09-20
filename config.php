@@ -14,12 +14,15 @@ ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 'STDOUT');
 
 define('PROGRAM_NAME','IRC CONSENSUS BOT');
-/* DB Settings For Later
+/* DB Settings */
 define("MYSQL_HOST","localhost");
-define("MYSQL_USER","btcbeuser");
-define("MYSQL_PASS","btcbeuser12345");
-define("MYSQL_DB","btcbe");
-*/
+define("MYSQL_USER","consensusbot");
+define("MYSQL_PASS","consensusbot12345");
+define("MYSQL_DB","consensusbot");
 
 // Requires
-//require_once 'src/modules/DBC.php';
+require_once 'include/DBC.php';
+require_once 'include/CBHandler.php';
+
+require_once 'include/Proposal.php';
+require_once 'include/Vote.php';
