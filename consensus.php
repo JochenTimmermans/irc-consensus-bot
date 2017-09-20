@@ -25,6 +25,11 @@ function privmsg($target,$message) {
     global $ircSocket;
     fwrite($ircSocket, "PRIVMSG ".$target." :".$message."\n");
 }
+function notice($target,$message) {
+    global $ircSocket;
+    fwrite($ircSocket, "NOTICE ".$target." :".$message."\n");
+}
+
 function hello($data) {
     $text = $data;
     array_shift($text);
@@ -40,20 +45,13 @@ function hello($data) {
         privmsg($channel, "hello ".extract_user_nick($user));    
     }
 }
-
-function isCb($data) {
-    $text = $data;
-    array_shift($text);
-    array_shift($text);
-    array_shift($text);
-    
-    $text[0] = substr($text[0],1); // clean the : from the first word
-    //writeln(implode($text,' '));
-    //writeln("text0: '".$text[0]."'");
-    if (trim($text[0]) == BOT_COMMAND) {
-        return true;
+function cleanStatus($name) {
+    if (substr($name,0,1) == '@' || substr($name,0,1) == '+') {
+        return substr($name,1);
     }
-    return false;
+    else {
+        return $name;
+    }
 }
 
 writeln('Starting '.PROGRAM_NAME);
@@ -69,7 +67,7 @@ if ($ircSocket) {
 
     while(1) {
         while($data = fgets($ircSocket, 128)) {
-            writeln($data);
+            echo $data;
 
             // Separate all data
             $exData = explode(' ', $data);
@@ -80,17 +78,26 @@ if ($ircSocket) {
                 fwrite($ircSocket, "PONG ".$exData[1]."\n");                
             }
             
+            // when $exData[3] == @, htis is the names list
+            if (isset($exData[3]) && $exData[3] == '@' && $exData[4] == IRC_CHANNEL) {
+                echo 'nameslist detected!';
+                $nameslist = array_slice($exData, 5);
+                // remove : from first item
+                $nameslist[0] = substr($nameslist[0], 1);
+                $names = array();
+                foreach($nameslist as $name) {
+                    $names[] = trim(cleanStatus($name));
+                }
+                writeln('names in my list:'.implode($names,','));
+            }
+            
             // example privmsg #channel:
             // :hythloday!~hythloday@ptr-178-50-86-230.dyn.mobistar.be PRIVMSG #consensus-bot :Hello conniebot
 
             if ($exData[1] == "PRIVMSG") {
-                writeln("Caught PRIVMSG");
                 if ($exData[2] == IRC_CHANNEL) {
-                    writeln("PRIVMSG IN MY CHANNEL");
                     hello($exData);
-                    if (isCb($exData)) {
-                        new CBHandler($exData[2]);
-                    }
+                    new CBHandler($exData,$names);
                 }
             }            
         }
