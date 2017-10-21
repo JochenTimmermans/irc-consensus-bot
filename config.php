@@ -15,15 +15,20 @@ ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 'STDOUT');
 
 define('PROGRAM_NAME','IRC CONSENSUS BOT');
-/* DB Settings */
+
+/* DB Settings 
 define("MYSQL_HOST","localhost");
 define("MYSQL_USER","consensusbot");
 define("MYSQL_PASS","consensusbot12345");
 define("MYSQL_DB","consensusbot");
+*/
+/* TextDB Settings */
+define('proposals', 'tdb/proposals.tdb');
+define('votes',     'tdb/votes.tdb');
 
 // Requires
-require_once 'include/DBC.php';
-require_once 'include/CBHandler.php';
+//require_once 'include/DBC.php';
+//require_once 'include/CBHandler.php';
 
 require_once 'include/Proposal.php';
 require_once 'include/Vote.php';

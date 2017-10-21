@@ -53,7 +53,16 @@ function cleanStatus($name) {
         return $name;
     }
 }
-
+/*  HOW TO READ TextDB files:
+ * 
+$myfile = fopen("webdictionary.txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+while(!feof($myfile)) {
+  echo fgets($myfile) . "<br>";
+}
+fclose($myfile);
+ * 
+ */
 writeln('Starting '.PROGRAM_NAME);
 writeln('Config Loaded');
 
