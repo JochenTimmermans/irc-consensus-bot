@@ -23,12 +23,17 @@ define("MYSQL_PASS","consensusbot12345");
 define("MYSQL_DB","consensusbot");
 */
 /* TextDB Settings */
-define('proposals', 'tdb/proposals.tdb');
-define('votes',     'tdb/votes.tdb');
+define('TDB_DIR',       'tdb/');
+define('TDB_PROPOSALS', TDB_DIR.'proposals.tdb');
+define('TDB_VOTES',     TDB_DIR.'votes.tdb');
 
 // Requires
-//require_once 'include/DBC.php';
-//require_once 'include/CBHandler.php';
+require_once 'include/classes/CBHandler.php';
+require_once 'include/classes/tdb/Proposal.php';
+require_once 'include/classes/tdb/Vote.php';
 
-require_once 'include/Proposal.php';
-require_once 'include/Vote.php';
+require_once 'include/functions/console/console.php';
+require_once 'include/functions/irc/irc.php';
+require_once 'include/functions/irc/responses.php';
+require_once 'include/functions/irc/user.php';
+require_once 'include/functions/tdb/tdb.php';

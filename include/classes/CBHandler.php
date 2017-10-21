@@ -1,5 +1,10 @@
 <?php
 
+namespace jochent\ircConsensus\irc;
+
+use function jochent\ircConsensus\irc\commands\privmsg,
+             jochent\ircConsensus\irc\user\extract_user_nick;
+
 /**
  * Description of CBHandler
  *
@@ -50,3 +55,15 @@ class CBHandler {
         }
     }    
 }
+
+
+/*  HOW TO READ TextDB files:
+ * 
+$myfile = fopen("webdictionary.txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+while(!feof($myfile)) {
+  echo fgets($myfile) . "<br>";
+}
+fclose($myfile);
+ * 
+ */
