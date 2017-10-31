@@ -1,9 +1,9 @@
 <?php
 
-namespace jochent\ircConsensus\irc\responses;
+namespace freest\ircConsensus\irc\responses;
 
-use function jochent\ircConsensus\irc\commands\privmsg,
-             jochent\ircConsensus\irc\user\extract_user_nick;
+use function freest\ircConsensus\irc\commands\privmsg,
+             freest\ircConsensus\irc\user\extract_user_nick;
 
 /**
  * hello

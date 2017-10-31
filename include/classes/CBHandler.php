@@ -1,9 +1,12 @@
 <?php
 
-namespace jochent\ircConsensus\irc;
+namespace freest\ircConsensus\irc;
 
-use function jochent\ircConsensus\irc\commands\privmsg,
-             jochent\ircConsensus\irc\user\extract_user_nick;
+use function freest\ircConsensus\irc\commands\privmsg,
+             freest\ircConsensus\irc\user\extract_user_nick,
+             freest\ircConsensus\console\console,
+             freest\ircConsensus\irc\commands\ircOut,
+             freest\ircConsensus\votes\votekick_add;
 
 /**
  * Description of CBHandler
@@ -21,28 +24,46 @@ class CBHandler {
 
         $text[0] = substr($text[0],1); // clean the : from the first word
         //writeln(implode($text,' '));
-        //writeln("text0: '".$text[0]."'");
-        if (trim($text[0]) == BOT_COMMAND) {        
+        console("text0: '".$text[0]."'");
+        if (trim($text[0]) == BOT_COMMAND) {     
+            console("Botcommand!");
             $user = $data[0];
-            $command = $data[1];
+            $servercommand = trim($data[1]);
             $channel = $data[2];
+            //console("command: '".$command."', channel: '".$channel."'");
             
             if (trim($text[1]) == "votekick") {
+                console("Votekick detected.");
                 if (isset($text[2])) {
                     $proposing = extract_user_nick($user);
                     $target = $text[2];
                     // check if target user exists, + check that target != proposing user
+                    /*
                     if (!in_array($target, $names)) { 
                         privmsg($channel, "User is not in ".$channel); 
-                        writeln('target: '.$target);
-                        writeln('names: "'.implode($names,', ').'"');
+                        console('target: '.$target);
+                        console('names: "'.implode($names,', ').'"');
                         return; 
-                    }
+                    }*/
                     if ($target == $proposing) { privmsg($channel, "You cannot vote on yourself."); return; }
                     if ($target == BOT_NICK) { privmsg($channel, "You cannot vote for me, sorry."); return;}
-                    writeln('proposing: '.$proposing);
-                    writeln('target: '.$target);
-                    privmsg($channel, 'Kick vote started on '.$target);
+                    console('proposing: '.$proposing);
+                    console('target: '.$target);
+                    // update nameslist
+//                    console("Refreshing names list.");
+//                    ircOut("NAMES ".$channel);
+                    global $users;
+                    if (array_key_exists($target, $users)) {
+                        console("User known, host is ".$users[$target]);
+                        // votekick_add($channel,$proposing_usernick, $proposing_userhost,$target_usernick,$target_userhost,$interval = 0)
+                        votekick_add($channel,$proposing, $users[$proposing], $target, $users[$target]);
+                        privmsg($channel, 'Kick vote started on '.$target.'.');
+                        privmsg($channel, 'Vote by using !cb vote <id> yes/no '.$target);
+                    }
+                    else {
+                        privmsg($channel, "I don't know that user...");
+                    }
+                    
                     // notice all users 
                     // we cant get names list, or we won't drop into this cbhandler... hmmm.....
                 }

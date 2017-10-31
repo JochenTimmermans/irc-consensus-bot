@@ -1,6 +1,6 @@
 <?php
 
-namespace jochent\ircConsensus\irc\user;
+namespace freest\ircConsensus\irc\user;
 
 /**
  * extract_user_nick

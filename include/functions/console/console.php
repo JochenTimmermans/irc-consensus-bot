@@ -1,6 +1,6 @@
 <?php
 
-namespace jochent\ircConsensus\console;
+namespace freest\ircConsensus\console;
 
 /**
  * console

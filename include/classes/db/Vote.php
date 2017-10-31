@@ -1,5 +1,7 @@
 <?php
 
+namespace freest\ircConsensus\votes;
+
 /**
  * Description of Vote
  *
